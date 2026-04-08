@@ -1,1 +1,25 @@
-my first code
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+responses = {
+    "hello": "Hi there!",
+    "how are you": "I'm just a bot, but I'm doing fine!",
+    "bye": "Goodbye!",
+    "what's your name": "I'm your friendly chatbot!",
+    "what can you do": "I can chat with you and answer simple questions.",
+    "what's your favorite color": "I like all colors equally!",
+    "default": "Sorry, I don’t understand that."
+}
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/get", methods=["POST"])
+def get_bot_response():
+    user_input = request.form["user_input"].lower()
+    return responses.get(user_input, responses["default"])
+
+if __name__ == "__main__":
+    app.run(debug=True)
